@@ -107,15 +107,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private updateChartData() {
     if (this.recentReadings.length === 0) return;
 
-    // Group readings by sensor type for chart display
-    const groupedData = this.groupReadingsBySensorType();
+    // Filter readings based on selected sensor type
+    const filteredReadings = this.selectedSensorType === null 
+      ? this.recentReadings 
+      : this.recentReadings.filter(r => r.type === this.selectedSensorType);
+
+    // Group filtered readings by sensor type for chart display
+    const groupedData = this.groupReadingsBySensorType(filteredReadings);
     this.chartData = this.prepareChartData(groupedData);
   }
 
-  private groupReadingsBySensorType(): Map<SensorType, SensorReading[]> {
+  private groupReadingsBySensorType(readings: SensorReading[] = this.recentReadings): Map<SensorType, SensorReading[]> {
     const grouped = new Map<SensorType, SensorReading[]>();
     
-    this.recentReadings.forEach(reading => {
+    readings.forEach(reading => {
       if (!grouped.has(reading.type)) {
         grouped.set(reading.type, []);
       }
@@ -217,6 +222,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   filterBySensorType(type: SensorType | null) {
     this.selectedSensorType = type;
+    // Update chart immediately when filter changes
+    this.updateChartData();
   }
 
   getFilteredReadings(): SensorReading[] {
