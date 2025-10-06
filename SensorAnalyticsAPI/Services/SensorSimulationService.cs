@@ -22,10 +22,10 @@ namespace SensorAnalyticsAPI.Services
         {
             _logger.LogInformation("Sensor simulation service started");
 
-            // Target: 1000 readings per second
-            // With 50 sensors, each sensor generates 20 readings per second
-            var readingsPerSensorPerSecond = 20;
-            var intervalMs = 1000 / readingsPerSensorPerSecond; // 50ms per reading per sensor
+            // Target: 100 readings per second (reduced for better visualization)
+            // With 50 sensors, each sensor generates 2 readings per second
+            var readingsPerSensorPerSecond = 2;
+            var intervalMs = 1000 / readingsPerSensorPerSecond; // 500ms per reading per sensor
 
             var tasks = _sensorConfigs.Select(config => 
                 SimulateSensor(config, intervalMs, stoppingToken)).ToArray();

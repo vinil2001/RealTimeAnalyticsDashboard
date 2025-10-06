@@ -43,15 +43,15 @@ namespace SensorAnalyticsAPI.Services
             {
                 try
                 {
-                    // Broadcast recent readings every 100ms (10 times per second)
-                    var recentReadings = _dataService.GetRecentReadings(50);
+                    // Broadcast recent readings every 1000ms (1 time per second) - slower for better visualization
+                    var recentReadings = _dataService.GetRecentReadings(20);
                     if (recentReadings.Any())
                     {
                         await _hubContext.Clients.All.SendAsync("NewReadings", recentReadings, stoppingToken);
                     }
 
-                    // Broadcast statistics every 5 seconds
-                    if (DateTime.UtcNow - _lastStatisticsUpdate > TimeSpan.FromSeconds(5))
+                    // Broadcast statistics every 10 seconds
+                    if (DateTime.UtcNow - _lastStatisticsUpdate > TimeSpan.FromSeconds(10))
                     {
                         var statistics = _dataService.GetAllSensorStatistics();
                         var totalCount = _dataService.GetTotalReadingsCount();
@@ -67,13 +67,13 @@ namespace SensorAnalyticsAPI.Services
                     }
 
                     // Broadcast recent alerts
-                    var recentAlerts = _dataService.GetRecentAlerts(10);
+                    var recentAlerts = _dataService.GetRecentAlerts(5);
                     if (recentAlerts.Any())
                     {
                         await _hubContext.Clients.All.SendAsync("NewAlerts", recentAlerts, stoppingToken);
                     }
 
-                    await Task.Delay(100, stoppingToken); // 100ms interval
+                    await Task.Delay(1000, stoppingToken); // 1000ms interval (1 second)
                 }
                 catch (Exception ex)
                 {
