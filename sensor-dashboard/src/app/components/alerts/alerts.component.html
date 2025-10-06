@@ -1,0 +1,29 @@
+<div *ngIf="alerts.length === 0" class="text-center text-muted py-4">
+  <i class="fas fa-check-circle fa-2x mb-2"></i>
+  <p>No alerts at this time</p>
+</div>
+
+<div *ngFor="let alert of alerts; trackBy: trackByAlert" 
+     class="alert-item" 
+     [class]="getAlertSeverityClass(alert.severity)">
+  <div class="d-flex justify-content-between align-items-start">
+    <div class="flex-grow-1">
+      <div class="d-flex align-items-center mb-1">
+        <i [class]="getAlertSeverityIcon(alert.severity)" class="me-2"></i>
+        <strong class="me-2">{{ alert.sensorId }}</strong>
+        <span class="badge badge-sm" 
+              [class]="'bg-' + getAlertSeverityClass(alert.severity).split('-')[1]">
+          {{ getAlertSeverityText(alert.severity) }}
+        </span>
+      </div>
+      <p class="mb-1 small">{{ alert.message }}</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <small class="text-muted">
+          Value: <strong>{{ alert.value | number:'1.2-2' }}</strong> 
+          (Threshold: {{ alert.threshold | number:'1.2-2' }})
+        </small>
+        <small class="text-muted">{{ getTimeAgo(alert.timestamp) }}</small>
+      </div>
+    </div>
+  </div>
+</div>

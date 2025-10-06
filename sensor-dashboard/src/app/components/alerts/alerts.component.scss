@@ -1,0 +1,31 @@
+.alert-item {
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.alert-item:hover {
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.badge-sm {
+  font-size: 0.65rem;
+  padding: 0.25em 0.5em;
+}
+
+.bg-low {
+  background-color: #28a745 !important;
+}
+
+.bg-medium {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.bg-high {
+  background-color: #fd7e14 !important;
+}
+
+.bg-critical {
+  background-color: #dc3545 !important;
+}

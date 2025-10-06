@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-chart-line me-2"></i>
+      Sensor Analytics Dashboard
+    </a>
+    
+    <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+      <div class="nav-item me-4">
+        <span class="navbar-text">
+          <i class="fas fa-clock me-1"></i>
+          {{ currentTime | date:'medium' }}
+        </span>
+      </div>
+      
+      <div class="nav-item me-4">
+        <span class="navbar-text">
+          <i class="fas fa-database me-1"></i>
+          {{ totalReadings | number }} readings
+        </span>
+      </div>
+      
+      <div class="nav-item me-4">
+        <span class="navbar-text">
+          <i class="fas fa-microchip me-1"></i>
+          {{ activeSensors }} sensors
+        </span>
+      </div>
+      
+      <div class="nav-item">
+        <span class="navbar-text">
+          <span class="status-indicator" [class]="getConnectionStatusClass()"></span>
+          {{ connectionStatus }}
+        </span>
+      </div>
+    </div>
+  </div>
+</nav>

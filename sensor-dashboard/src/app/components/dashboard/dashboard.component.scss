@@ -1,0 +1,49 @@
+.metric-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+}
+
+.btn-group .btn {
+  margin: 2px;
+}
+
+.table-responsive {
+  max-height: 350px;
+}
+
+.real-time-indicator {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  flex-direction: column;
+}
+
+.card-header h5 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.badge {
+  font-size: 0.7rem;
+}
