@@ -11,6 +11,7 @@ import { SensorChartComponent } from './components/sensor-chart/sensor-chart.com
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { HeaderComponent } from './components/header/header.component';
+import { TimeAgoPipe } from './pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HeaderComponent } from './components/header/header.component';
     SensorChartComponent,
     AlertsComponent,
     StatisticsComponent,
-    HeaderComponent
+    HeaderComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,

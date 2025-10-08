@@ -72,10 +72,23 @@ namespace SensorAnalyticsAPI.Services
 
                     await Task.Delay(intervalMs, stoppingToken);
                 }
+                catch (OperationCanceledException)
+                {
+                    // Expected when application is shutting down
+                    _logger.LogInformation($"Sensor simulation stopped for {config.SensorId}");
+                    break;
+                }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error simulating sensor {config.SensorId}");
-                    await Task.Delay(1000, stoppingToken); // Wait before retrying
+                    try
+                    {
+                        await Task.Delay(1000, stoppingToken); // Wait before retrying
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break; // Exit if cancellation requested during delay
+                    }
                 }
             }
         }

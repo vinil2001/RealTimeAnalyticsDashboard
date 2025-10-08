@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4200",
+    "start:alt": "ng serve --port 4201",
+    "start:prod": "ng serve --port 3000",
     "build": "ng build",
+    "build:prod": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

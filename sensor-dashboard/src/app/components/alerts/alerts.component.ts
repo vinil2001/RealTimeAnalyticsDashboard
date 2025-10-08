@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AnomalyAlert, AlertSeverity } from '../../models/sensor.models';
+import { TimeTrackerService } from '../../services/time-tracker.service';
 
 @Component({
   selector: 'app-alerts',
@@ -9,48 +10,41 @@ import { AnomalyAlert, AlertSeverity } from '../../models/sensor.models';
 })
 export class AlertsComponent {
   @Input() alerts: AnomalyAlert[] = [];
+  
+  constructor(public timeTracker: TimeTrackerService) {}
 
-  getAlertSeverityClass(severity: AlertSeverity): string {
+  getAlertSeverityClass(severity: number): string {
     switch (severity) {
-      case AlertSeverity.Low: return 'alert-low';
-      case AlertSeverity.Medium: return 'alert-medium';
-      case AlertSeverity.High: return 'alert-high';
-      case AlertSeverity.Critical: return 'alert-critical';
+      case 0: return 'alert-low';
+      case 1: return 'alert-medium';
+      case 2: return 'alert-high';
+      case 3: return 'alert-critical';
       default: return 'alert-low';
     }
   }
 
-  getAlertSeverityIcon(severity: AlertSeverity): string {
+  getAlertSeverityIcon(severity: number): string {
     switch (severity) {
-      case AlertSeverity.Low: return 'fas fa-info-circle';
-      case AlertSeverity.Medium: return 'fas fa-exclamation-triangle';
-      case AlertSeverity.High: return 'fas fa-exclamation-circle';
-      case AlertSeverity.Critical: return 'fas fa-skull-crossbones';
+      case 0: return 'fas fa-info-circle';
+      case 1: return 'fas fa-exclamation-triangle';
+      case 2: return 'fas fa-exclamation-circle';
+      case 3: return 'fas fa-skull-crossbones';
       default: return 'fas fa-info-circle';
     }
   }
 
-  getAlertSeverityText(severity: AlertSeverity): string {
-    return AlertSeverity[severity];
-  }
-
-  getTimeAgo(timestamp: Date): string {
-    const now = new Date();
-    const diff = now.getTime() - new Date(timestamp).getTime();
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-
-    if (hours > 0) {
-      return `${hours}h ago`;
-    } else if (minutes > 0) {
-      return `${minutes}m ago`;
-    } else {
-      return `${seconds}s ago`;
+  getAlertSeverityText(severity: number): string {
+    switch (severity) {
+      case 0: return 'Low';
+      case 1: return 'Medium';
+      case 2: return 'High';
+      case 3: return 'Critical';
+      default: return 'Low';
     }
   }
 
-  trackByAlert(index: number, alert: AnomalyAlert): string {
+
+  trackByAlert(index: number, alert: AnomalyAlert): number {
     return alert.id;
   }
 }

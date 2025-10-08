@@ -28,7 +28,9 @@ else
 }
 
 // Add CORS for Angular frontend
-var frontendUrl = builder.Configuration["FRONTEND_URL"] ?? "http://localhost:4200";
+var frontendUrl = builder.Configuration["FRONTEND_URL"] ?? 
+                  builder.Configuration["ServerSettings:FrontendUrl"] ?? 
+                  "http://localhost:4200";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
@@ -98,8 +100,22 @@ app.MapGet("/health", () => new {
     database = useDatabase ? "PostgreSQL" : "In-Memory"
 });
 
-// Use PORT environment variable for Railway
-var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://0.0.0.0:{port}");
+// Configure URLs based on environment
+var httpPort = Environment.GetEnvironmentVariable("PORT") ?? 
+               builder.Configuration["ServerSettings:HttpPort"] ?? 
+               "5000";
+
+var httpsPort = builder.Configuration["ServerSettings:HttpsPort"] ?? "7206";
+
+if (app.Environment.IsDevelopment())
+{
+    // Only HTTP for development to avoid certificate issues
+    app.Urls.Add($"http://localhost:{httpPort}");
+}
+else
+{
+    // Production (Railway, etc.)
+    app.Urls.Add($"http://0.0.0.0:{httpPort}");
+}
 
 app.Run();

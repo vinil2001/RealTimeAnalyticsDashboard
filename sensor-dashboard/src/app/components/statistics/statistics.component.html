@@ -25,19 +25,19 @@
             <div class="row text-center">
               <div class="col-3">
                 <div class="stat-item">
-                  <div class="stat-value text-primary">{{ formatNumber(stats.average) }}</div>
+                  <div class="stat-value text-primary">{{ formatNumber(stats.averageValue) }}</div>
                   <div class="stat-label">Average</div>
                 </div>
               </div>
               <div class="col-3">
                 <div class="stat-item">
-                  <div class="stat-value text-success">{{ formatNumber(stats.min) }}</div>
+                  <div class="stat-value text-success">{{ formatNumber(stats.minValue) }}</div>
                   <div class="stat-label">Min</div>
                 </div>
               </div>
               <div class="col-3">
                 <div class="stat-item">
-                  <div class="stat-value text-danger">{{ formatNumber(stats.max) }}</div>
+                  <div class="stat-value text-danger">{{ formatNumber(stats.maxValue) }}</div>
                   <div class="stat-label">Max</div>
                 </div>
               </div>
@@ -59,12 +59,12 @@
                 </span>
               </div>
               <div class="mb-2">
-                <span class="badge" [class]="'bg-' + getVariabilityLevel(stats.standardDeviation, stats.average).class.split('-')[1]">
-                  {{ getVariabilityLevel(stats.standardDeviation, stats.average).level }}
+                <span class="badge" [class]="'bg-' + getVariabilityLevel(stats.standardDeviation, stats.averageValue).class.split('-')[1]">
+                  {{ getVariabilityLevel(stats.standardDeviation, stats.averageValue).level }}
                 </span>
               </div>
               <small class="text-muted d-block">
-                Updated {{ getTimeAgo(stats.lastUpdate) }}
+                Updated {{ stats.lastUpdate | timeAgo:((timeTracker.currentTime$ | async) || 0) }}
               </small>
             </div>
           </div>
@@ -78,8 +78,8 @@
               <div class="flex-grow-1">
                 <div class="progress" style="height: 4px;">
                   <div class="progress-bar" 
-                       [class]="getVariabilityLevel(stats.standardDeviation, stats.average).class.replace('text-', 'bg-')"
-                       [style.width.%]="Math.min((stats.standardDeviation / stats.average) * 100, 100)">
+                       [class]="getVariabilityLevel(stats.standardDeviation, stats.averageValue).class.replace('text-', 'bg-')"
+                       [style.width.%]="Math.min((stats.standardDeviation / stats.averageValue) * 100, 100)">
                   </div>
                 </div>
               </div>

@@ -75,10 +75,22 @@ namespace SensorAnalyticsAPI.Services
 
                     await Task.Delay(1000, stoppingToken); // 1000ms interval (1 second)
                 }
+                catch (OperationCanceledException)
+                {
+                    _logger.LogInformation("Real-time broadcast stopped");
+                    break;
+                }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error in real-time broadcast");
-                    await Task.Delay(1000, stoppingToken); // Wait before retrying
+                    try
+                    {
+                        await Task.Delay(1000, stoppingToken); // Wait before retrying
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -93,6 +105,11 @@ namespace SensorAnalyticsAPI.Services
                     await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
                     _dataService.PurgeOldData();
                     _logger.LogInformation("Data purge completed");
+                }
+                catch (OperationCanceledException)
+                {
+                    _logger.LogInformation("Data purge task stopped");
+                    break;
                 }
                 catch (Exception ex)
                 {

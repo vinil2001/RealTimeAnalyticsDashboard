@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SensorStatistics, SensorType } from '../../models/sensor.models';
+import { TimeTrackerService } from '../../services/time-tracker.service';
 
 @Component({
   selector: 'app-statistics',
@@ -10,6 +11,8 @@ import { SensorStatistics, SensorType } from '../../models/sensor.models';
 export class StatisticsComponent {
   @Input() statistics: SensorStatistics[] = [];
   Math = Math; // Make Math available in template
+  
+  constructor(public timeTracker: TimeTrackerService) {}
 
   getSensorTypeIcon(type: SensorType): string {
     switch (type) {
@@ -74,23 +77,11 @@ export class StatisticsComponent {
     return stats.sensorId;
   }
 
-  formatNumber(value: number, decimals: number = 2): string {
+  formatNumber(value: number | undefined, decimals: number = 2): string {
+    if (value === undefined || value === null || isNaN(value)) {
+      return '0.00';
+    }
     return value.toFixed(decimals);
   }
 
-  getTimeAgo(timestamp: Date): string {
-    const now = new Date();
-    const diff = now.getTime() - new Date(timestamp).getTime();
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-
-    if (hours > 0) {
-      return `${hours}h ago`;
-    } else if (minutes > 0) {
-      return `${minutes}m ago`;
-    } else {
-      return `${seconds}s ago`;
-    }
-  }
 }

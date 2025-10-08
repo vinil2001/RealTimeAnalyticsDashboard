@@ -21,23 +21,24 @@ export enum SensorType {
 export interface SensorStatistics {
   sensorId: string;
   type: SensorType;
-  average: number;
-  min: number;
-  max: number;
+  averageValue: number;
+  minValue: number;
+  maxValue: number;
   standardDeviation: number;
   count: number;
   lastUpdate: Date;
 }
 
 export interface AnomalyAlert {
-  id: string;
+  id: number;
   sensorId: string;
-  sensorType: SensorType;
+  type: SensorType;
   value: number;
-  threshold: number;
+  expectedValue: number;
+  deviation: number;
   message: string;
   timestamp: Date;
-  severity: AlertSeverity;
+  severity: number; // Alert severity: 0=Low, 1=Medium, 2=High, 3=Critical
 }
 
 export enum AlertSeverity {

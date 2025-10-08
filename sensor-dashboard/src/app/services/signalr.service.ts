@@ -111,14 +111,17 @@ export class SignalRService {
 
     try {
       this.connectionState.next('Connecting');
+      console.log('Starting SignalR connection to:', this.hubConnection!.baseUrl);
+      
       await this.hubConnection!.start();
       this.connectionState.next('Connected');
-      console.log('SignalR connection established');
+      console.log('✅ SignalR connection established successfully');
       
       // Request initial data after connection
       await this.requestInitialData();
+      console.log('✅ Initial data requested');
     } catch (error) {
-      console.error('Error starting SignalR connection:', error);
+      console.error('❌ Error starting SignalR connection:', error);
       this.connectionState.next('Disconnected');
       throw error;
     }

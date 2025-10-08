@@ -20,9 +20,9 @@
       <div class="d-flex justify-content-between align-items-center">
         <small class="text-muted">
           Value: <strong>{{ alert.value | number:'1.2-2' }}</strong> 
-          (Threshold: {{ alert.threshold | number:'1.2-2' }})
+          (Expected: {{ alert.expectedValue | number:'1.2-2' }}, Deviation: {{ alert.deviation | number:'1.2-2' }})
         </small>
-        <small class="text-muted">{{ getTimeAgo(alert.timestamp) }}</small>
+        <small class="text-muted">{{ alert.timestamp | timeAgo:((timeTracker.currentTime$ | async) || 0) }}</small>
       </div>
     </div>
   </div>

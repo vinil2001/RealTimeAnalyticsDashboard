@@ -1,3 +1,4 @@
+// Production environment - uses Railway URLs
 export const environment = {
   production: true,
   apiUrl: 'https://realtimeanalyticsdashboard-production.up.railway.app/api',
