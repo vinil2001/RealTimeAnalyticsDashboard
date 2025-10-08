@@ -1,0 +1,19 @@
+[build]
+  base = "sensor-dashboard"
+  command = "npm ci && npm run build --prod"
+  publish = "dist/sensor-dashboard"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production]
+  command = "npm ci && npm run build --configuration=production"
+
+[context.deploy-preview]
+  command = "npm ci && npm run build --configuration=production"

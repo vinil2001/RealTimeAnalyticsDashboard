@@ -77,9 +77,9 @@ namespace SensorAnalyticsAPI.Services
                 {
                     SensorId = sensorId,
                     Type = stats.Type,
-                    Average = stats.Sum / stats.Count,
-                    Min = stats.Min,
-                    Max = stats.Max,
+                    AverageValue = stats.Sum / stats.Count,
+                    MinValue = stats.Min,
+                    MaxValue = stats.Max,
                     StandardDeviation = Math.Sqrt((stats.SumOfSquares - (stats.Sum * stats.Sum / stats.Count)) / stats.Count),
                     Count = stats.Count,
                     LastUpdate = stats.LastUpdate
@@ -202,13 +202,14 @@ namespace SensorAnalyticsAPI.Services
                     var alert = new AnomalyAlert
                     {
                         SensorId = reading.SensorId,
-                        SensorType = reading.Type,
+                        Type = reading.Type,
                         Value = reading.Value,
-                        Threshold = threshold,
+                        ExpectedValue = mean,
+                        Deviation = deviation,
                         Message = $"Sensor {reading.SensorId} reading {reading.Value:F2} deviates {deviation:F2} from mean {mean:F2} (threshold: {threshold:F2})",
                         Timestamp = reading.Timestamp,
-                        Severity = deviation > threshold * 2 ? AlertSeverity.Critical : 
-                                  deviation > threshold * 1.5 ? AlertSeverity.High : AlertSeverity.Medium
+                        Severity = deviation > threshold * 2 ? 3 : 
+                                  deviation > threshold * 1.5 ? 2 : 1  // 0=Low, 1=Medium, 2=High, 3=Critical
                     };
 
                     _alerts.Enqueue(alert);
