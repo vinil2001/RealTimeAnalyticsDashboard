@@ -11,7 +11,8 @@ builder.Services.AddSignalR();
 builder.Services.AddOpenApi();
 
 // Database configuration
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+                      Environment.GetEnvironmentVariable("DATABASE_URL");
 var useDatabase = !string.IsNullOrEmpty(connectionString);
 
 if (useDatabase)
