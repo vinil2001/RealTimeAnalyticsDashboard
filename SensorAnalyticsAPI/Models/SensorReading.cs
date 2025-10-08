@@ -26,9 +26,9 @@ namespace SensorAnalyticsAPI.Models
     {
         public string SensorId { get; set; } = string.Empty;
         public SensorType Type { get; set; }
-        public double Average { get; set; }
-        public double Min { get; set; }
-        public double Max { get; set; }
+        public double AverageValue { get; set; }  // Renamed for consistency with database context
+        public double MinValue { get; set; }      // Renamed for consistency with database context
+        public double MaxValue { get; set; }      // Renamed for consistency with database context
         public double StandardDeviation { get; set; }
         public int Count { get; set; }
         public DateTime LastUpdate { get; set; }
@@ -36,14 +36,15 @@ namespace SensorAnalyticsAPI.Models
 
     public class AnomalyAlert
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public int Id { get; set; }  // Changed to int for auto-increment primary key
         public string SensorId { get; set; } = string.Empty;
-        public SensorType SensorType { get; set; }
+        public SensorType Type { get; set; }  // Renamed for consistency
         public double Value { get; set; }
-        public double Threshold { get; set; }
+        public double ExpectedValue { get; set; }  // Added for better anomaly tracking
+        public double Deviation { get; set; }      // Added for deviation amount
         public string Message { get; set; } = string.Empty;
         public DateTime Timestamp { get; set; }
-        public AlertSeverity Severity { get; set; }
+        public int Severity { get; set; }  // Changed to int (0=Low, 1=Medium, 2=High, 3=Critical)
     }
 
     public enum AlertSeverity
